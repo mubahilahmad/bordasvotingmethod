@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VoteActivity">
+
+    <TextView
+        android:id="@+id/tvYourPreferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvYourPreferences"
+        android:textColor="#4E8769"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.02" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/seekbar"
+        app:layout_constraintTop_toBottomOf="@id/tvYourPreferences"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvYourBordaVote">
+
+        <LinearLayout
+            android:id="@+id/dynamicContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tvYourBordaVote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/tvYourBordaVote"
+        android:textColor="#FFBD5F"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/scrollView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
+
+    <TextView
+        android:id="@+id/tvResults"
+        android:layout_width="354dp"
+        android:layout_height="181dp"
+        android:layout_marginTop="8dp"
+        android:background="#FBC77A"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvYourBordaVote" />
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#FF0000"
+        android:text="@string/buttonCancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvResults"
+        app:layout_constraintTop_toBottomOf="@id/tvResults"
+        app:layout_constraintVertical_bias="0.043" />
+
+    <Button
+        android:id="@+id/buttonConfirmYourVote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:backgroundTint="#4CAF50"
+        android:text="@string/buttonConfirmYourVote"
+        app:layout_constraintBottom_toBottomOf="@id/buttonCancel"
+        app:layout_constraintEnd_toEndOf="@+id/tvResults"
+        app:layout_constraintStart_toEndOf="@id/buttonCancel"
+        app:layout_constraintTop_toTopOf="@id/buttonCancel"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

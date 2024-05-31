@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tvBordasMethod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="660dp"
+        android:text="@string/tvBordasMethod"
+        android:textColor="#ffa41f"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.947" />
+
+    <TextView
+        android:id="@+id/tvNumberOfOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/tvNumberOfOptions"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBordasMethod" />
+
+    <TextView
+        android:id="@+id/tvVotingOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/tvVotingOptions"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvNumberOfOptions"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvNumberOfOptions"
+        app:layout_constraintTop_toBottomOf="@+id/tvNumberOfOptions" />
+
+    <EditText
+        android:id="@+id/editTextEnterAllOptions"
+        android:layout_width="349dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="32dp"
+        android:background="#fff5bc"
+        android:ems="10"
+        android:hint="@string/editTextEnterAllOptions"
+        android:inputType="text"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/tvVotingOptions"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvVotingOptions"
+        app:layout_constraintTop_toBottomOf="@+id/tvVotingOptions" />
+
+    <TextView
+        android:id="@+id/tvNumberOfVotesSoFar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/tvNumberOfVotesSoFar"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/editTextEnterAllOptions"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEnterAllOptions" />
+
+    <TextView
+        android:id="@+id/tvNumberOfVotesSoFarNumber"
+        android:layout_width="66dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="100dp"
+        android:background="#ffeb3b"
+        android:gravity="center"
+        android:minHeight="36dp"
+        android:padding="0dp"
+        android:text="@string/tvNumberOfVotesSoFarNumber"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNumberOfVotesSoFar"
+        app:layout_constraintStart_toEndOf="@+id/tvNumberOfVotesSoFar"
+        app:layout_constraintTop_toTopOf="@+id/tvNumberOfVotesSoFar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonStartOver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/buttonStartOver"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNumberOfVotesSoFar" />
+
+    <Button
+        android:id="@+id/buttonAddAVote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:text="@string/buttonAddAVote"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonStartOver"
+        app:layout_constraintStart_toEndOf="@+id/buttonStartOver"
+        app:layout_constraintTop_toTopOf="@+id/buttonStartOver"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Switch
+        android:id="@+id/switchShowVotingResult"
+        android:layout_width="201dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/switchShowVotingResult"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAddAVote"
+        app:layout_constraintStart_toEndOf="@+id/buttonStartOver"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStartOver" />
+
+    <TextView
+        android:id="@+id/tvShowVotingResult"
+        android:layout_width="331dp"
+        android:layout_height="158dp"
+        android:layout_marginTop="28dp"
+        android:background="#c3c3c3"
+        android:text="@string/tvShowVotingResult"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchShowVotingResult"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextNumberOfOptions"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="156dp"
+        android:inputType="text"
+        android:textSize="16sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNumberOfOptions"
+        app:layout_constraintStart_toEndOf="@+id/tvNumberOfOptions"
+        app:layout_constraintTop_toTopOf="@+id/tvNumberOfOptions"
+        app:layout_constraintVertical_bias="0.538"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
