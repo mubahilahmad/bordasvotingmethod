@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editTextNumberOfOptions: EditText
     private lateinit var editTextEnterAllOptions: EditText
     private lateinit var buttonAddAVote: Button
+    private lateinit var buttonStartOver: Button
     private lateinit var tvShowVotingResult: TextView
     private lateinit var tvNumberOfVotesSoFarNumber: TextView
     private lateinit var switchShowVotingResult: Switch
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         editTextNumberOfOptions = findViewById(R.id.editTextNumberOfOptions)
         editTextEnterAllOptions = findViewById(R.id.editTextEnterAllOptions)
         buttonAddAVote = findViewById(R.id.buttonAddAVote)
+        buttonStartOver = findViewById(R.id.buttonStartOver)
         tvShowVotingResult = findViewById(R.id.tvShowVotingResult)
         tvNumberOfVotesSoFarNumber = findViewById(R.id.tvNumberOfVotesSoFarNumber)
         switchShowVotingResult = findViewById(R.id.switchShowVotingResult)
@@ -129,6 +131,14 @@ class MainActivity : AppCompatActivity() {
                 intent.putStringArrayListExtra("options", ArrayList(options))
                 intent.putExtra("numberOfOptions", validOptionCount)
                 startForResult.launch(intent) // Verwende den ActivityResultLauncher
+            }
+        }
+
+        buttonStartOver.setOnClickListener {
+            val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
+            if (currentVotes > 0) {
+                tvNumberOfVotesSoFarNumber.text = "0"
+                Toast.makeText(this, getString(R.string.toast_starting_anew), Toast.LENGTH_SHORT).show()
             }
         }
 

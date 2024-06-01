@@ -24,5 +24,5 @@
     <string name="toast_cancelled">"Vote has been cancelled!</string>
     <string name="toast_votes_resetted">All votes resetted!</string>
     <string name="toast_vote_cancelled">Vote has been cancelled!</string>
-
+    <string name="toast_starting_anew">Starting anew!</string>
 </resources>
