@@ -57,18 +57,41 @@ class VoteActivity : AppCompatActivity() {
 
             dynamicContent.addView(textView)
             dynamicContent.addView(seekBar)
+
+            // Add an OnSeekBarChangeListener to update tvResults in real-time
+            seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    updateResults(numberOfOptions)
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    // No action needed
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    // No action needed
+                }
+            })
         }
 
         buttonCancel.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            val intent = Intent()
+            intent.putExtra("cancelled", true)
+            setResult(RESULT_CANCELED, intent)
+            finish()
         }
 
         buttonConfirm.setOnClickListener {
             if (!validateUniqueScores()) {
-                Toast.makeText(this, "Vote is not unique!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.toast_vote_not_unique), Toast.LENGTH_SHORT).show()
+            } else {
+                calculateScores(numberOfOptions)
+                val results = tvResults.text.toString()
+                val intent = Intent()
+                intent.putExtra("votingResults", results)
+                setResult(RESULT_OK, intent)
+                finish()
             }
-            calculateScores(numberOfOptions)
             saveScrollViewContent()
         }
     }
@@ -107,10 +130,38 @@ class VoteActivity : AppCompatActivity() {
         tvResults.text = resultsText
 
         if (duplicateProgresses.isNotEmpty()) {
-            Toast.makeText(this, "Vote is not unique!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_vote_not_unique), Toast.LENGTH_SHORT).show()
         }
     }
 
+    private fun updateResults(numberOfOptions: Int) {
+        val scores = mutableMapOf<String, Int>()
+        val progressMap = mutableMapOf<String, Int>()
+
+        seekBars.sortedByDescending { it.first.progress }
+            .forEachIndexed { index, pair ->
+                val points = numberOfOptions - 1 - index
+                scores[pair.second] = points
+                progressMap[pair.second] = pair.first.progress
+            }
+
+        val duplicateProgresses = progressMap.values.groupBy { it }.filter { it.value.size > 1 }.keys
+        val maxScore = scores.values.maxOrNull()
+
+        val resultsText = seekBars.joinToString(separator = "\n") { (seekBar, option) ->
+            val score = scores[option] ?: 0
+            if (seekBar.progress in duplicateProgresses) {
+                "$option -> <not unique>"
+            } else {
+                if (score == maxScore) {
+                    "*** $option -> $score points ***"
+                } else {
+                    "$option -> $score points"
+                }
+            }
+        }
+        tvResults.text = resultsText
+    }
 
     private fun saveScrollViewContent() {
         val dynamicContent = findViewById<LinearLayout>(R.id.dynamicContent)
@@ -125,7 +176,7 @@ class VoteActivity : AppCompatActivity() {
         }
 
         val scrollViewContent = contentBuilder.toString()
-        // Sie können diesen String jetzt verwenden, um ihn zu speichern oder zu debuggen
+        // You can now use this string to save or debug
         println(scrollViewContent)
     }
 }

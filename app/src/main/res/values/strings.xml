@@ -8,7 +8,7 @@
     <string name="buttonAddAVote">Add a Vote</string>
     <string name="switchShowVotingResult">Show Voting Result</string>
     <string name="editTextEnterAllOptions">Enter all options separated by comma!</string>
-    <string name="tvNumberOfVotesSoFarNumber">"    0"</string>
+    <string name="tvNumberOfVotesSoFarNumber">0</string>
     <string name="tvShowVotingResult" />
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -20,5 +20,7 @@
     <string name="buttonCancel">CANCEL</string>
     <string name="buttonConfirmYourVote">CONFIRM YOUR VOTE</string>
     <string name="scrollView">scrollView</string>
+    <string name="toast_vote_not_unique">Vote is not unique!</string>
+    <string name="toast_cancelled">"Vote has been cancelled!</string>
 
 </resources>

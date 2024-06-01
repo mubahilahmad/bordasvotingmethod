@@ -92,11 +92,10 @@
         android:id="@+id/buttonStartOver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="28dp"
         android:text="@string/buttonStartOver"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvNumberOfVotesSoFar"
         app:layout_constraintTop_toBottomOf="@+id/tvNumberOfVotesSoFar" />
 
     <Button
@@ -107,6 +106,8 @@
         android:text="@string/buttonAddAVote"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/buttonStartOver"
+        app:layout_constraintEnd_toEndOf="@+id/tvNumberOfVotesSoFarNumber"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/buttonStartOver"
         app:layout_constraintTop_toTopOf="@+id/buttonStartOver"
         app:layout_constraintVertical_bias="0.0" />
@@ -115,25 +116,27 @@
         android:id="@+id/switchShowVotingResult"
         android:layout_width="201dp"
         android:layout_height="48dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
         android:text="@string/switchShowVotingResult"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/buttonAddAVote"
-        app:layout_constraintStart_toEndOf="@+id/buttonStartOver"
+        app:layout_constraintEnd_toEndOf="@+id/buttonAddAVote"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="@+id/buttonStartOver"
         app:layout_constraintTop_toBottomOf="@+id/buttonStartOver" />
 
     <TextView
         android:id="@+id/tvShowVotingResult"
-        android:layout_width="331dp"
-        android:layout_height="158dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="348dp"
+        android:layout_height="199dp"
+        android:layout_marginTop="24dp"
         android:background="#c3c3c3"
         android:text="@string/tvShowVotingResult"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchShowVotingResult"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.034" />
 
     <EditText
         android:id="@+id/editTextNumberOfOptions"
