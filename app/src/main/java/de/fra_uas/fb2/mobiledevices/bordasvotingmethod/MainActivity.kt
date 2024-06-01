@@ -10,6 +10,8 @@ import android.widget.EditText
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -20,12 +22,37 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvShowVotingResult: TextView
     private lateinit var tvNumberOfVotesSoFarNumber: TextView
     private lateinit var switchShowVotingResult: Switch
+    private lateinit var startForResult: ActivityResultLauncher<Intent> // Neuer ActivityResultLauncher
     private var validOptionCount: Int? = null
     private var votingResults: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Initialisiere den ActivityResultLauncher
+        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) { // Überprüfung auf RESULT_OK
+                val data = result.data
+                val results = data?.getStringExtra("votingResults")
+                results?.let {
+                    votingResults = it
+                    if (switchShowVotingResult.isChecked) {
+                        tvShowVotingResult.text = it
+                    }
+
+                    // Inkrementiere die Anzahl der Stimmen
+                    val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
+                    tvNumberOfVotesSoFarNumber.text = (currentVotes + 1).toString()
+                }
+            } else if (result.resultCode == RESULT_CANCELED) { // Überprüfung auf RESULT_CANCELED
+                val data = result.data
+                val isCancelled = data?.getBooleanExtra("cancelled", false) ?: false
+                if (isCancelled) {
+                    Toast.makeText(this, getString(R.string.toast_vote_cancelled), Toast.LENGTH_SHORT).show() // Zeige den Toast an
+                }
+            }
+        }
 
         editTextNumberOfOptions = findViewById(R.id.editTextNumberOfOptions)
         editTextEnterAllOptions = findViewById(R.id.editTextEnterAllOptions)
@@ -62,7 +89,34 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                validateOptions(null)
+                val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
+                if (currentVotes > 0) { // Überprüfe, ob die Anzahl der Stimmen größer als 0 ist
+                    tvNumberOfVotesSoFarNumber.text = "0"
+                    tvShowVotingResult.text = ""
+                    Toast.makeText(this@MainActivity, getString(R.string.toast_votes_resetted), Toast.LENGTH_SHORT).show() // Zeige den Toast an
+                } else {
+                    tvNumberOfVotesSoFarNumber.text = "0"
+                    tvShowVotingResult.text = ""
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        // Add TextWatcher to reset tvNumberOfVotesSoFarNumber and clear tvShowVotingResult when editTextNumberOfOptions changes
+        editTextNumberOfOptions.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
+                if (currentVotes > 0) { // Überprüfe, ob die Anzahl der Stimmen größer als 0 ist
+                    tvNumberOfVotesSoFarNumber.text = "0"
+                    tvShowVotingResult.text = ""
+                    Toast.makeText(this@MainActivity, getString(R.string.toast_votes_resetted), Toast.LENGTH_SHORT).show() // Zeige den Toast an
+                } else {
+                    tvNumberOfVotesSoFarNumber.text = "0"
+                    tvShowVotingResult.text = ""
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -74,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, VoteActivity::class.java)
                 intent.putStringArrayListExtra("options", ArrayList(options))
                 intent.putExtra("numberOfOptions", validOptionCount)
-                startActivityForResult(intent, 1)
+                startForResult.launch(intent) // Verwende den ActivityResultLauncher
             }
         }
 
@@ -90,23 +144,6 @@ class MainActivity : AppCompatActivity() {
                 tvShowVotingResult.text = votingResults // Show text when switch is on
             } else {
                 tvShowVotingResult.text = "" // Hide text when switch is off
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            val results = data?.getStringExtra("votingResults")
-            results?.let {
-                votingResults = it
-                if (switchShowVotingResult.isChecked) {
-                    tvShowVotingResult.text = it
-                }
-
-                // Inkrementiere die Anzahl der Stimmen
-                val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
-                tvNumberOfVotesSoFarNumber.text = (currentVotes + 1).toString()
             }
         }
     }

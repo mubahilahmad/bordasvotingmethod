@@ -22,5 +22,7 @@
     <string name="scrollView">scrollView</string>
     <string name="toast_vote_not_unique">Vote is not unique!</string>
     <string name="toast_cancelled">"Vote has been cancelled!</string>
+    <string name="toast_votes_resetted">All votes resetted!</string>
+    <string name="toast_vote_cancelled">Vote has been cancelled!</string>
 
 </resources>
