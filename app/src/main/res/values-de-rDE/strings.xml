@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tvBordasMethod">Borda\'s Wahlmethode</string>
+    <string name="tvNumberOfOptions">Anzahl der Optionen:</string>
+    <string name="tvVotingOptions">Wahlmöglichkeiten:</string>
+    <string name="tvNumberOfVotesSoFar">Anzahl bisheriger Stimmen:</string>
+    <string name="buttonStartOver">Neu beginnen</string>
+    <string name="buttonAddAVote">Stimme hinzufügen</string>
+    <string name="switchShowVotingResult">Wahlergebnis anzeigen</string>
+    <string name="editTextEnterAllOptions">Geben Sie alle Optionen ein!</string>
+    <string name="tvYourPreferences">Ihre Präferenzen</string>
+    <string name="tvYourBordaVote">Ihre Borda-Stimme</string>
+    <string name="buttonCancel">ABBRECHEN</string>
+    <string name="buttonConfirmYourVote">STIMME BESTÄTIGEN</string>
+    <string name="toast_vote_not_unique">Stimme nicht einzigartig!</string>
+    <string name="toast_votes_resetted">Alle Stimmen zurückgesetzt!</string>
+    <string name="toast_vote_cancelled">Vote wurde abgebrochen!</string>
+    <string name="toast_starting_anew">Neuanfang!</string>
+    <string name="app_name">Borda\'s Wahlmethode</string>
+</resources>

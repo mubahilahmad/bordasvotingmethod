@@ -18,6 +18,7 @@ class VoteActivity : AppCompatActivity() {
     private lateinit var tvResults: TextView
     private lateinit var scrollView: ScrollView
     private val seekBars = mutableListOf<Pair<SeekBar, String>>()
+    private val scores = mutableMapOf<String, Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +34,12 @@ class VoteActivity : AppCompatActivity() {
 
         val dynamicContent = findViewById<LinearLayout>(R.id.dynamicContent)
 
-        options?.forEachIndexed { index, option ->
+        options?.forEachIndexed { _, option ->
             val textView = TextView(this).apply {
                 id = View.generateViewId()
                 text = option
                 textSize = 14f
-                setPadding(0, 2, 0, 2)  // Padding to create space between elements
+                setPadding(0, 3, 0, 3)
             }
 
             val seekBar = SeekBar(this).apply {
@@ -49,7 +50,7 @@ class VoteActivity : AppCompatActivity() {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    setMargins(0, 3, 0, 3)  // Margins to create space between elements
+                    setMargins(0, 3, 0, 3)
                 }
             }
 
@@ -58,19 +59,13 @@ class VoteActivity : AppCompatActivity() {
             dynamicContent.addView(textView)
             dynamicContent.addView(seekBar)
 
-            // Add an OnSeekBarChangeListener to update tvResults in real-time
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     updateResults(numberOfOptions)
                 }
 
-                override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                    // No action needed
-                }
-
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                    // No action needed
-                }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
             })
         }
 
@@ -89,6 +84,9 @@ class VoteActivity : AppCompatActivity() {
                 val results = tvResults.text.toString()
                 val intent = Intent()
                 intent.putExtra("votingResults", results)
+                intent.putExtra("scores", HashMap(scores))
+                intent.putStringArrayListExtra("optionsOrder",
+                    options?.let { it1 -> ArrayList(it1) })
                 setResult(RESULT_OK, intent)
                 finish()
             }
@@ -102,7 +100,7 @@ class VoteActivity : AppCompatActivity() {
     }
 
     private fun calculateScores(numberOfOptions: Int) {
-        val scores = mutableMapOf<String, Int>()
+        scores.clear()
         val progressMap = mutableMapOf<String, Int>()
 
         seekBars.sortedByDescending { it.first.progress }
@@ -168,15 +166,13 @@ class VoteActivity : AppCompatActivity() {
         val contentBuilder = StringBuilder()
 
         for (i in 0 until dynamicContent.childCount) {
-            val view = dynamicContent.getChildAt(i)
-            when (view) {
+            when (val view = dynamicContent.getChildAt(i)) {
                 is TextView -> contentBuilder.append(view.text).append("\n")
                 is SeekBar -> contentBuilder.append("SeekBar progress: ").append(view.progress).append("\n")
             }
         }
 
         val scrollViewContent = contentBuilder.toString()
-        // You can now use this string to save or debug
         println(scrollViewContent)
     }
 }

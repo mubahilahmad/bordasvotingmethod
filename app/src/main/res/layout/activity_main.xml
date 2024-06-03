@@ -18,10 +18,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.947" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/tvNumberOfOptions"
@@ -48,14 +48,14 @@
 
     <EditText
         android:id="@+id/editTextEnterAllOptions"
-        android:layout_width="349dp"
-        android:layout_height="72dp"
+        android:layout_width="351dp"
+        android:layout_height="85dp"
         android:layout_marginTop="32dp"
         android:background="#fff5bc"
         android:ems="10"
         android:hint="@string/editTextEnterAllOptions"
         android:inputType="text"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/tvVotingOptions"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tvVotingOptions"
@@ -116,34 +116,34 @@
         android:id="@+id/switchShowVotingResult"
         android:layout_width="201dp"
         android:layout_height="48dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:text="@string/switchShowVotingResult"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/buttonAddAVote"
-        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/buttonStartOver"
         app:layout_constraintTop_toBottomOf="@+id/buttonStartOver" />
 
     <TextView
         android:id="@+id/tvShowVotingResult"
-        android:layout_width="348dp"
-        android:layout_height="199dp"
+        android:layout_width="353dp"
+        android:layout_height="167dp"
         android:layout_marginTop="24dp"
         android:background="#c3c3c3"
         android:text="@string/tvShowVotingResult"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchShowVotingResult"
-        app:layout_constraintVertical_bias="0.034" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/editTextNumberOfOptions"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="156dp"
-        android:inputType="text"
+        android:inputType="number"
         android:textSize="16sp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/tvNumberOfOptions"

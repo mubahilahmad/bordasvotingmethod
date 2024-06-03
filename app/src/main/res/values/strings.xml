@@ -1,28 +1,22 @@
 <resources>
-    <string name="app_name">Borda’s Voting Method</string>
-    <string name="tvBordasMethod">Borda\'s Method</string>
     <string name="tvNumberOfOptions">Number of Options:</string>
     <string name="tvVotingOptions">Voting Options:</string>
     <string name="tvNumberOfVotesSoFar">Number Of Votes So Far:</string>
-    <string name="buttonStartOver">Start Over</string>
     <string name="buttonAddAVote">Add a Vote</string>
     <string name="switchShowVotingResult">Show Voting Result</string>
     <string name="editTextEnterAllOptions">Enter all options separated by comma!</string>
-    <string name="tvNumberOfVotesSoFarNumber">0</string>
-    <string name="tvShowVotingResult" />
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="tvNumberOfVotesSoFarNumber" translatable="false">0</string>
+    <string name="tvShowVotingResult" translatable="false"></string>
     <string name="tvYourPreferences">Your Preferences</string>
     <string name="tvYourBordaVote">Your Borda Vote</string>
     <string name="buttonCancel">CANCEL</string>
     <string name="buttonConfirmYourVote">CONFIRM YOUR VOTE</string>
-    <string name="scrollView">scrollView</string>
+    <string name="scrollView" translatable="false">scrollView</string>
     <string name="toast_vote_not_unique">Vote is not unique!</string>
-    <string name="toast_cancelled">"Vote has been cancelled!</string>
     <string name="toast_votes_resetted">All votes resetted!</string>
     <string name="toast_vote_cancelled">Vote has been cancelled!</string>
     <string name="toast_starting_anew">Starting anew!</string>
+    <string name="app_name">Borda’s Voting Method</string>
+    <string name="tvBordasMethod">Borda’s Voting Method</string>
+    <string name="buttonStartOver">Start Over</string>
 </resources>
