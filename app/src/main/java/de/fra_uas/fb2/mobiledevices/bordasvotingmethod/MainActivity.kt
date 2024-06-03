@@ -16,14 +16,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
+    // alle elemente, die es auch im userinterface gibt -> activity_main.xml
 
-    private lateinit var editTextNumberOfOptions: EditText
-    private lateinit var editTextEnterAllOptions: EditText
+    private lateinit var editTextNumberOfOptions: EditText     // zahl zwischen 2 und 10, default wert ist 3
+    private lateinit var editTextEnterAllOptions: EditText     // eingegebene optionen, getrennt durch comma
+    private lateinit var tvNumberOfVotesSoFarNumber: TextView  // zahl per defaul 0, wird bei erfolgreiches voting inkrementiert (voteactivity -> confirm your vote button)
+    private lateinit var buttonStartOver: Button               // beim drücken wird tvNumberOfVotesSoFarNumber auf 0 gesetzt + toast (nur wenn zahl > 0)
     private lateinit var buttonAddAVote: Button
-    private lateinit var buttonStartOver: Button
-    private lateinit var tvShowVotingResult: TextView
-    private lateinit var tvNumberOfVotesSoFarNumber: TextView
     private lateinit var switchShowVotingResult: Switch
+    private lateinit var tvShowVotingResult: TextView
+
     private lateinit var startForResult: ActivityResultLauncher<Intent>
     private var validOptionCount: Int? = null
     private var votingResults: String = ""
@@ -33,6 +35,110 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        // methode verbindet diese activity mit userinterface (activity_main.xml)
+
+        // die variablen haben den selben namen, wie die id der xml elemente
+        editTextNumberOfOptions = findViewById(R.id.editTextNumberOfOptions)
+        editTextEnterAllOptions = findViewById(R.id.editTextEnterAllOptions)
+        tvNumberOfVotesSoFarNumber = findViewById(R.id.tvNumberOfVotesSoFarNumber)
+        buttonStartOver = findViewById(R.id.buttonStartOver)
+        buttonAddAVote = findViewById(R.id.buttonAddAVote)
+        switchShowVotingResult = findViewById(R.id.switchShowVotingResult)
+        tvShowVotingResult = findViewById(R.id.tvShowVotingResult)
+
+        editTextNumberOfOptions.hint = "3"     // hint ist in diesem fall besser als settext() -> wenn user reinklickt, muss er die 3 nicht manuell löschen
+
+        tvNumberOfVotesSoFarNumber.text = "0"  // textview wird auf string 0 gesetzt
+
+        editTextNumberOfOptions.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val updatedText = StringBuilder(dest).apply {
+                    replace(dstart, dend, source.subSequence(start, end).toString())
+                }.toString()
+
+                val value = updatedText.toIntOrNull()
+
+                if (value != null && value in 2..10) {
+                    validOptionCount = value
+                    null
+                } else {
+                    if (updatedText == "1") {
+                        return@InputFilter null
+                    }
+                    ""
+                }
+            })
+
+        // stop
+        editTextNumberOfOptions.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                if (editTextNumberOfOptions.text.toString() == "3") {
+                    editTextNumberOfOptions.setText("")
+                }
+            } else {
+                if (editTextNumberOfOptions.text.isEmpty()) {
+                    editTextNumberOfOptions.setText("3")
+                }
+            }
+        }
+
+        editTextNumberOfOptions.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
+                if (currentVotes > 0) {
+                    resetVoting()
+                    Toast.makeText(this@MainActivity, getString(R.string.toast_votes_resetted), Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        editTextEnterAllOptions.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
+                if (currentVotes > 0) {
+                    resetVoting()
+                    Toast.makeText(this@MainActivity, getString(R.string.toast_votes_resetted), Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+
+        buttonAddAVote.setOnClickListener {
+            validateOptions { options ->
+                if (editTextNumberOfOptions.text.toString().isEmpty()) {
+                    editTextNumberOfOptions.setText("3")
+                    validOptionCount = 3
+                }
+                optionsOrder.clear()
+                optionsOrder.addAll(options)
+                val intent = Intent(this, VoteActivity::class.java)
+                intent.putStringArrayListExtra("options", ArrayList(options))
+                intent.putExtra("numberOfOptions", validOptionCount)
+                startForResult.launch(intent)
+            }
+        }
+
+        buttonStartOver.setOnClickListener {
+            val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
+            if (currentVotes > 0) {
+                resetVoting()
+                Toast.makeText(this, getString(R.string.toast_starting_anew), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        switchShowVotingResult.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                showAggregatedResults()
+            } else {
+                tvShowVotingResult.text = ""
+            }
+        }
 
         startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -65,108 +171,6 @@ class MainActivity : AppCompatActivity() {
                 if (isCancelled) {
                     Toast.makeText(this, getString(R.string.toast_vote_cancelled), Toast.LENGTH_SHORT).show()
                 }
-            }
-        }
-
-        editTextNumberOfOptions = findViewById(R.id.editTextNumberOfOptions)
-        editTextEnterAllOptions = findViewById(R.id.editTextEnterAllOptions)
-        buttonAddAVote = findViewById(R.id.buttonAddAVote)
-        buttonStartOver = findViewById(R.id.buttonStartOver)
-        tvShowVotingResult = findViewById(R.id.tvShowVotingResult)
-        tvNumberOfVotesSoFarNumber = findViewById(R.id.tvNumberOfVotesSoFarNumber)
-        switchShowVotingResult = findViewById(R.id.switchShowVotingResult)
-
-        tvNumberOfVotesSoFarNumber.text = "0"
-
-        editTextNumberOfOptions.hint = "3"
-
-        editTextNumberOfOptions.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            val updatedText = StringBuilder(dest).apply {
-                replace(dstart, dend, source.subSequence(start, end).toString())
-            }.toString()
-
-            val value = updatedText.toIntOrNull()
-
-            if (value != null && value in 2..10) {
-                validOptionCount = value
-                null
-            } else {
-                ""
-            }
-        })
-
-        editTextNumberOfOptions.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                if (editTextNumberOfOptions.text.toString() == "3") {
-                    editTextNumberOfOptions.setText("")
-                }
-            } else {
-                if (editTextNumberOfOptions.text.isEmpty()) {
-                    editTextNumberOfOptions.setText("3")
-                }
-            }
-        }
-
-        editTextEnterAllOptions.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
-                if (currentVotes > 0) {
-                    resetVoting()
-                    Toast.makeText(this@MainActivity, getString(R.string.toast_votes_resetted), Toast.LENGTH_SHORT).show()
-                } else {
-                    resetVoting()
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        editTextNumberOfOptions.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
-                if (currentVotes > 0) {
-                    resetVoting()
-                    Toast.makeText(this@MainActivity, getString(R.string.toast_votes_resetted), Toast.LENGTH_SHORT).show()
-                } else {
-                    resetVoting()
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        buttonAddAVote.setOnClickListener {
-            validateOptions { options ->
-                if (editTextNumberOfOptions.text.toString().isEmpty()) {
-                    editTextNumberOfOptions.setText("3")
-                    validOptionCount = 3
-                }
-                optionsOrder.clear()
-                optionsOrder.addAll(options)
-                val intent = Intent(this, VoteActivity::class.java)
-                intent.putStringArrayListExtra("options", ArrayList(options))
-                intent.putExtra("numberOfOptions", validOptionCount)
-                startForResult.launch(intent)
-            }
-        }
-
-        buttonStartOver.setOnClickListener {
-            val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
-            if (currentVotes > 0) {
-                resetVoting()
-                Toast.makeText(this, getString(R.string.toast_starting_anew), Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        switchShowVotingResult.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                showAggregatedResults()
-            } else {
-                tvShowVotingResult.text = ""
             }
         }
     }
