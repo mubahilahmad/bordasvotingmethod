@@ -59,6 +59,15 @@ To run this project, follow these steps:
 
 ## Screenshots
 
-Include screenshots of the main activity and voting activity here to give users a visual representation of the app.
+
+## Screenshots
+
+### Main Activity
+![Main Activity](screenshots/1_main_resized.png)
+![Main Activity](screenshots/4_main_resized.png)
+
+### Voting Activity
+![Voting Activity](screenshots/2_main_resized.png)
+![Voting Activity](screenshots/3_main_resized.png)
 
 
