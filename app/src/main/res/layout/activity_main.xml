@@ -25,11 +25,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:text="@string/tvNumberOfOptions"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvBordasMethod" />
+
+    <EditText
+        android:id="@+id/editTextNumberOfOptions"
+        android:layout_width="59dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="144dp"
+        android:gravity="center"
+        android:inputType="number"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNumberOfOptions"
+        app:layout_constraintStart_toEndOf="@+id/tvNumberOfOptions"
+        app:layout_constraintTop_toTopOf="@+id/tvNumberOfOptions"
+        app:layout_constraintVertical_bias="0.566"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/tvVotingOptions"
@@ -92,11 +106,11 @@
         android:id="@+id/buttonStartOver"
         android:layout_width="137dp"
         android:layout_height="60dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:text="@string/buttonStartOver"
         android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="@+id/tvNumberOfVotesSoFar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNumberOfVotesSoFar" />
 
     <Button
@@ -118,11 +132,11 @@
         android:layout_width="227dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
-        android:text="@string/switchShowVotingResult"
-        android:textSize="17sp"
-        android:textColor="#7A7A7A"
-        app:layout_constraintEnd_toEndOf="parent"
         android:paddingStart="22dp"
+        android:text="@string/switchShowVotingResult"
+        android:textColor="#7A7A7A"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonStartOver" />
@@ -138,18 +152,5 @@
         app:layout_constraintStart_toStartOf="@+id/buttonStartOver"
         app:layout_constraintTop_toBottomOf="@+id/switchShowVotingResult" />
 
-    <EditText
-        android:id="@+id/editTextNumberOfOptions"
-        android:layout_width="59dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="152dp"
-        android:gravity="center"
-        android:inputType="number"
-        android:textSize="17sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvNumberOfOptions"
-        app:layout_constraintStart_toEndOf="@+id/tvNumberOfOptions"
-        app:layout_constraintTop_toTopOf="@+id/tvNumberOfOptions"
-        app:layout_constraintVertical_bias="0.533"
-        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,7 +39,7 @@ class VoteActivity : AppCompatActivity() {
                 id = View.generateViewId()
                 text = option
                 textSize = 14f
-                setPadding(0, 3, 0, 3)
+                setPadding(10, 2, 0, 2)
             }
 
             val seekBar = SeekBar(this).apply {
@@ -50,7 +50,7 @@ class VoteActivity : AppCompatActivity() {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    setMargins(0, 3, 0, 3)
+                    setMargins(2, 2, 0, 2)
                 }
             }
 
@@ -60,7 +60,11 @@ class VoteActivity : AppCompatActivity() {
             dynamicContent.addView(seekBar)
 
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
                     updateResults(numberOfOptions)
                 }
 
@@ -78,7 +82,8 @@ class VoteActivity : AppCompatActivity() {
 
         buttonConfirm.setOnClickListener {
             if (!validateUniqueScores()) {
-                Toast.makeText(this, getString(R.string.toast_vote_not_unique), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.toast_vote_not_unique), Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 calculateScores(numberOfOptions)
                 val results = tvResults.text.toString()
@@ -110,7 +115,8 @@ class VoteActivity : AppCompatActivity() {
                 progressMap[pair.second] = pair.first.progress
             }
 
-        val duplicateProgresses = progressMap.values.groupBy { it }.filter { it.value.size > 1 }.keys
+        val duplicateProgresses =
+            progressMap.values.groupBy { it }.filter { it.value.size > 1 }.keys
         val maxScore = scores.values.maxOrNull()
 
         val resultsText = seekBars.joinToString(separator = "\n") { (seekBar, option) ->
@@ -128,7 +134,8 @@ class VoteActivity : AppCompatActivity() {
         tvResults.text = resultsText
 
         if (duplicateProgresses.isNotEmpty()) {
-            Toast.makeText(this, getString(R.string.toast_vote_not_unique), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_vote_not_unique), Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -143,7 +150,8 @@ class VoteActivity : AppCompatActivity() {
                 progressMap[pair.second] = pair.first.progress
             }
 
-        val duplicateProgresses = progressMap.values.groupBy { it }.filter { it.value.size > 1 }.keys
+        val duplicateProgresses =
+            progressMap.values.groupBy { it }.filter { it.value.size > 1 }.keys
         val maxScore = scores.values.maxOrNull()
 
         val resultsText = seekBars.joinToString(separator = "\n") { (seekBar, option) ->
@@ -168,11 +176,11 @@ class VoteActivity : AppCompatActivity() {
         for (i in 0 until dynamicContent.childCount) {
             when (val view = dynamicContent.getChildAt(i)) {
                 is TextView -> contentBuilder.append(view.text).append("\n")
-                is SeekBar -> contentBuilder.append("SeekBar progress: ").append(view.progress).append("\n")
+                is SeekBar -> contentBuilder.append("SeekBar progress: ").append(view.progress)
+                    .append("\n")
             }
         }
 
-        val scrollViewContent = contentBuilder.toString()
-        println(scrollViewContent)
+
     }
 }

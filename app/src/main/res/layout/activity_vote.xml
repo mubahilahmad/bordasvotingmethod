@@ -13,23 +13,23 @@
         android:layout_height="wrap_content"
         android:text="@string/tvYourPreferences"
         android:textColor="#4E8769"
-        android:textSize="32sp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.02" />
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="409dp"
+        android:layout_height="412dp"
         android:background="@color/seekbar"
         android:contentDescription="@string/scrollView"
-        app:layout_constraintTop_toBottomOf="@id/tvYourPreferences"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvYourBordaVote"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tvYourBordaVote">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvYourPreferences">
 
         <LinearLayout
             android:id="@+id/dynamicContent"
@@ -45,23 +45,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/tvYourBordaVote"
-        android:textColor="#FFBD5F"
-        android:textSize="32sp"
-        android:textStyle="bold"
+        android:textColor="#FF9F47"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scrollView" />
 
     <TextView
         android:id="@+id/tvResults"
-        android:layout_width="354dp"
-        android:layout_height="181dp"
+        android:layout_width="352dp"
+        android:layout_height="172dp"
         android:layout_marginTop="8dp"
         android:background="#FBC77A"
         android:gravity="top|center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvYourBordaVote" />
 

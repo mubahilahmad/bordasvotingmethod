@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    // activity_main
+    <!--activity_main.xml-->
     <color name="black">#FF000000</color>
-    <color name="Geld">#ffeb3b</color>
+    <color name="Gelb">#ffeb3b</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colafeld">#fff5bc</color>
     <color name="Überschrift">#ffa41f</color>
     <color name="ganzuntenfeld">#c3c3c3</color>
-
-    // activity_vote
+    <!--activity_vote.xml-->
     <color name="youpreferences">#95B2A1</color>
     <color name="seekbar">#DAEDED</color>
     <color name="yourbordavote">#FFBD5F</color>

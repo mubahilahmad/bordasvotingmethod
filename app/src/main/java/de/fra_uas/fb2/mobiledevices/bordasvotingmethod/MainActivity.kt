@@ -16,12 +16,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    // alle elemente, die es auch im userinterface gibt -> activity_main.xml
 
-    private lateinit var editTextNumberOfOptions: EditText     // zahl zwischen 2 und 10, default wert ist 3
-    private lateinit var editTextEnterAllOptions: EditText     // eingegebene optionen, getrennt durch comma
-    private lateinit var tvNumberOfVotesSoFarNumber: TextView  // zahl per defaul 0, wird bei erfolgreiches voting inkrementiert (voteactivity -> confirm your vote button)
-    private lateinit var buttonStartOver: Button               // beim drücken wird tvNumberOfVotesSoFarNumber auf 0 gesetzt + toast (nur wenn zahl > 0)
+    private lateinit var editTextNumberOfOptions: EditText
+    private lateinit var editTextEnterAllOptions: EditText
+    private lateinit var tvNumberOfVotesSoFarNumber: TextView
+    private lateinit var buttonStartOver: Button
     private lateinit var buttonAddAVote: Button
     private lateinit var switchShowVotingResult: Switch
     private lateinit var tvShowVotingResult: TextView
@@ -35,9 +34,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // methode verbindet diese activity mit userinterface (activity_main.xml)
 
-        // die variablen haben den selben namen, wie die id der xml elemente
         editTextNumberOfOptions = findViewById(R.id.editTextNumberOfOptions)
         editTextEnterAllOptions = findViewById(R.id.editTextEnterAllOptions)
         tvNumberOfVotesSoFarNumber = findViewById(R.id.tvNumberOfVotesSoFarNumber)
@@ -46,9 +43,9 @@ class MainActivity : AppCompatActivity() {
         switchShowVotingResult = findViewById(R.id.switchShowVotingResult)
         tvShowVotingResult = findViewById(R.id.tvShowVotingResult)
 
-        editTextNumberOfOptions.hint = "3"     // hint ist in diesem fall besser als settext() -> wenn user reinklickt, muss er die 3 nicht manuell löschen
+        editTextNumberOfOptions.hint = "3"
 
-        tvNumberOfVotesSoFarNumber.text = "0"  // textview wird auf string 0 gesetzt
+        tvNumberOfVotesSoFarNumber.text = "0"
 
         editTextNumberOfOptions.filters =
             arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
@@ -58,29 +55,13 @@ class MainActivity : AppCompatActivity() {
 
                 val value = updatedText.toIntOrNull()
 
-                if (value != null && value in 2..10) {
+                if (value != null && value in 2..9) {
                     validOptionCount = value
                     null
                 } else {
-                    if (updatedText == "1") {
-                        return@InputFilter null
-                    }
                     ""
                 }
             })
-
-        // stop
-        editTextNumberOfOptions.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                if (editTextNumberOfOptions.text.toString() == "3") {
-                    editTextNumberOfOptions.setText("")
-                }
-            } else {
-                if (editTextNumberOfOptions.text.isEmpty()) {
-                    editTextNumberOfOptions.setText("3")
-                }
-            }
-        }
 
         editTextNumberOfOptions.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -89,9 +70,14 @@ class MainActivity : AppCompatActivity() {
                 val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
                 if (currentVotes > 0) {
                     resetVoting()
-                    Toast.makeText(this@MainActivity, getString(R.string.toast_votes_resetted), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.toast_votes_resetted),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
 
@@ -102,12 +88,25 @@ class MainActivity : AppCompatActivity() {
                 val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
                 if (currentVotes > 0) {
                     resetVoting()
-                    Toast.makeText(this@MainActivity, getString(R.string.toast_votes_resetted), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.toast_votes_resetted),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        buttonStartOver.setOnClickListener {
+            val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
+            if (currentVotes > 0) {
+                resetVoting()
+                Toast.makeText(this, getString(R.string.toast_starting_anew), Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
 
         buttonAddAVote.setOnClickListener {
             validateOptions { options ->
@@ -124,55 +123,54 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        buttonStartOver.setOnClickListener {
-            val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
-            if (currentVotes > 0) {
-                resetVoting()
-                Toast.makeText(this, getString(R.string.toast_starting_anew), Toast.LENGTH_SHORT).show()
-            }
-        }
-
         switchShowVotingResult.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                showAggregatedResults()
+                showFinalResults()
             } else {
                 tvShowVotingResult.text = ""
             }
         }
 
-        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val data = result.data
-                val results = data?.getStringExtra("votingResults")
-                val receivedScores = data?.getSerializableExtra("scores") as? HashMap<String, Int>
-                val receivedOptionsOrder = data?.getStringArrayListExtra("optionsOrder")
-                results?.let {
-                    votingResults = it
+        startForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val data = result.data
+                    val results = data?.getStringExtra("votingResults")
+                    val receivedScores =
+                        data?.getSerializableExtra("scores") as? HashMap<String, Int>
+                    val receivedOptionsOrder = data?.getStringArrayListExtra("optionsOrder")
+                    results?.let {
+                        votingResults = it
 
-                    val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
-                    tvNumberOfVotesSoFarNumber.text = (currentVotes + 1).toString()
+                        val currentVotes = tvNumberOfVotesSoFarNumber.text.toString().toInt()
+                        tvNumberOfVotesSoFarNumber.text = (currentVotes + 1).toString()
 
-                    receivedScores?.forEach { (option, points) ->
-                        scores[option] = scores.getOrDefault(option, 0) + points
+                        receivedScores?.forEach { (option, points) ->
+                            scores[option] = scores.getOrDefault(option, 0) + points
+                        }
+
+                        receivedOptionsOrder?.let {
+                            optionsOrder.clear()
+                            optionsOrder.addAll(it)
+                        }
+
+                        if (switchShowVotingResult.isChecked) {
+                            showFinalResults()
+                        }
                     }
-
-                    receivedOptionsOrder?.let {
-                        optionsOrder.clear()
-                        optionsOrder.addAll(it)
+                } else if (result.resultCode == RESULT_CANCELED) {
+                    val data = result.data
+                    val isCancelled = data?.getBooleanExtra("cancelled", false) ?: false
+                    if (isCancelled) {
+                        Toast.makeText(
+                            this,
+                            getString(R.string.toast_vote_cancelled),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-
-                    if (switchShowVotingResult.isChecked) {
-                        showAggregatedResults()
-                    }
-                }
-            } else if (result.resultCode == RESULT_CANCELED) {
-                val data = result.data
-                val isCancelled = data?.getBooleanExtra("cancelled", false) ?: false
-                if (isCancelled) {
-                    Toast.makeText(this, getString(R.string.toast_vote_cancelled), Toast.LENGTH_SHORT).show()
                 }
             }
-        }
+
     }
 
     private fun validateOptions(onValidOptions: ((List<String>) -> Unit)?) {
@@ -197,7 +195,7 @@ class MainActivity : AppCompatActivity() {
         onValidOptions?.invoke(adjustedOptions)
     }
 
-    private fun showAggregatedResults() {
+    private fun showFinalResults() {
         val maxScore = scores.values.maxOrNull()
         val resultsText = optionsOrder.joinToString(separator = "\n") { option ->
             val points = scores[option] ?: 0
