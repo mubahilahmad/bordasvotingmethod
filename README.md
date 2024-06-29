@@ -63,11 +63,11 @@ To run this project, follow these steps:
 ## Screenshots
 
 ### Main Activity
-![Main Activity](screenshots/1_main_resized.png)
-![Main Activity](screenshots/4_main_resized.png)
+![1_MainActivity](https://github.com/mubahilahmad/bordasvotingmethod/assets/171627590/c6890371-3d98-4096-85fb-62adff717767)
+![2_MainActivity](https://github.com/mubahilahmad/bordasvotingmethod/assets/171627590/5a12a41a-beef-40f3-a4ab-76a0a75d4cb3)
 
 ### Voting Activity
-![Voting Activity](screenshots/2_main_resized.png)
-![Voting Activity](screenshots/3_main_resized.png)
+![3_VoteActivity](https://github.com/mubahilahmad/bordasvotingmethod/assets/171627590/b5679335-9d9e-4686-b88e-bcea16544338)
+![4_VoteActivity](https://github.com/mubahilahmad/bordasvotingmethod/assets/171627590/b60c4133-cddd-445b-8b23-8a824f8be7e3)
 
 
