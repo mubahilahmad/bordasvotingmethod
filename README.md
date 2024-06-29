@@ -4,6 +4,13 @@
 This is a university project for implementing Borda's Voting Method on an Android application. It is an individual project,
 and all development has been done solely by myself.
 
+The app is a useful tool whenever you need to make a group decision, 
+e.g., during party planning, vacation decisions, leisure planning, etc. 
+Just enter all options, pass around the phone, 
+let everyone make his/her decision (anonymously), 
+and obtain the result. Before we specify the requirements in detail, 
+we must get some basic knowledge about voting methods in general.
+
 ## Project Description
 
 The application allows users to conduct a Borda count voting process.
